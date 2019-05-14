@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import menu from './Menu'
 import { MenuItem, MenuList, withStyles, AppBar, IconButton, List, ListItem, ListItemText, SwipeableDrawer, Tab, Tabs, Typography, Grid, Toolbar } from '@material-ui/core'
-import { Menu as MenuIcon} from '@material-ui/icons'
+import MenuIcon from '@material-ui/icons/Menu'
 import { Link, withRouter } from 'react-router-dom'
 
 const styles = theme => ({
