@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import Header from '../components/GlobalHeader'
 
-const Home = () => {
-  const [count, setCount] = useState(0)
-
+const Login = () => {
   return (
     <>
-      <Header/>
+      <Header />
     </>
   )
 }
-export default Home
+export default Login

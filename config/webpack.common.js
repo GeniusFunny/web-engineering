@@ -10,11 +10,7 @@ const rootPath = process.cwd()
 
 module.exports = {
   entry: {
-    index: path.join(rootPath, 'src', 'index.js'),
-    another: path.join(rootPath, 'src', 'App.js'),
-    a: path.join(rootPath, 'src', 'containers', 'A.js'),
-    b: path.join(rootPath, 'src', 'containers', 'B.js'),
-    c: path.join(rootPath, 'src', 'containers', 'C.js')
+    index: path.join(rootPath, 'src', 'index.js')
   },
   output: {
     path: path.join(rootPath, 'build'),

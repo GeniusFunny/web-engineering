@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import Header from '../components/GlobalHeader'
+import { Typography } from '@material-ui/core'
 
-const Home = () => {
-  const [count, setCount] = useState(0)
+const Dashboard = () => {
 
   return (
     <>
       <Header/>
+      <h3>Dashboard</h3>
     </>
   )
 }
-export default Home
+export default Dashboard

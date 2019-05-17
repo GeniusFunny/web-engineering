@@ -5,15 +5,15 @@ const Menu = [
   },
   {
     label: 'Dashboard',
-    pathname: '/A'
+    pathname: '/dashboard'
   },
   {
     label: 'Signup',
-    pathname: '/B'
+    pathname: '/signup'
   },
   {
     label: 'Profile',
-    pathname: '/C'
+    pathname: '/profile'
   }
 ]
 
