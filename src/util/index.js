@@ -1,4 +1,4 @@
-function debounce(fn, wait = 0) {
+function debounce(fn, wait = 300) {
   let timer
   return function() {
     const context = this
@@ -10,7 +10,7 @@ function debounce(fn, wait = 0) {
   }
 }
 
-function throttle(fn, timeout) {
+function throttle(fn, timeout = 300) {
   let timer, start
   return function() {
     const now = Date.now()
@@ -31,9 +31,11 @@ function throttle(fn, timeout) {
 const TIME = {
   TimezoneOffset: 8,
   unix2UTC(timestamp) {
-    const date = new Date(timestamp + this.TimezoneOffset * 60 * 60 * 1000)
-    return date
+    return new Date(timestamp + this.TimezoneOffset * 60 * 60 * 1000)
   },
+  /**
+   * @return {number}
+   */
   UTC2Unix(time) {
     const date = new Date(time)
     return date.getTime() - this.TimezoneOffset * 60 * 60 * 1000
@@ -43,6 +45,6 @@ const TIME = {
   }
 }
 
-export default {
+export {
   throttle, debounce, TIME
 }

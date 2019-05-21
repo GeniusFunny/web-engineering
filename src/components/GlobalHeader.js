@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import menu from './Menu'
-import { MenuItem, MenuList, withStyles, AppBar, IconButton, List, ListItem, ListItemText, SwipeableDrawer, Tab, Tabs, Typography, Grid, Toolbar } from '@material-ui/core'
+import { connect } from 'react-redux'
+import { withStyles, AppBar, Tab, Tabs, Toolbar } from '@material-ui/core'
 import { Link, withRouter } from 'react-router-dom'
 
 const styles = theme => ({
@@ -19,12 +20,18 @@ const styles = theme => ({
   }
 })
 function updateCurrentValue(currentPath) {
+  switch (currentPath) {
+    case '/home': return 0
+    case '/dashboard': return 1
+    case '/profile': return 2
+    case '/login': return 3
+  }
   const current = menu.findIndex(item => item.pathname === currentPath)
   return current === -1 ? 0 : current
 }
 
 const Header = (props) => {
-  const { classes } = props
+  const { classes, loginState } = props
   const [value, setValue] = useState(updateCurrentValue(props.location.pathname))
 
   useEffect(() => {
@@ -50,12 +57,18 @@ const Header = (props) => {
           onChange={handleChange}
           indicatorColor="primary"
         >
+          <Tab label='Home' component={Link} to={{ pathname: '/home' }} value={0}/>
+          <Tab label='Dashboard' component={Link} to={{ pathname: '/dashboard' }} value={1}/>
           {
-            menu.map(item => (<Tab label={item.label} key={item.label} component={Link} to={{ pathname: item.pathname }} />))
+            loginState.login ? <Tab label='Profile' key='profile' component={Link} to={{ pathname: '/profile' }} value={2}/> : <Tab label='Login' component={Link} to={{ pathname: '/login' }} value={3}/>
           }
         </Tabs>
       </Toolbar>
     </AppBar>
   )
 }
-export default withRouter(withStyles(styles)(Header))
+
+const mapStateToProps = state => ({
+  loginState: state.login
+})
+export default connect(mapStateToProps)(withRouter(withStyles(styles)(Header)))

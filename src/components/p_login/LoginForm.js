@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Button, withStyles, FormControl, Input, Select, InputLabel, Grid, Typography, MenuItem } from '@material-ui/core'
 import { withRouter } from 'react-router-dom'
+import ajax from '../../api/ajax'
 import { throttle } from '../../util'
 
 const styles = theme => ({
@@ -16,16 +17,12 @@ const styles = theme => ({
     width: 200
   }
 })
-const SignUpForm = (props) => {
-  const { classes, handleSubmit } = props
+const loginForm = (props) => {
+  const { classes, handleLogin } = props
   const [type, setType] = useState('student')
   const [form, setForm] = useState({
-    name: '',
     password: '',
-    address: '',
     account: '',
-    school: '',
-    email: ''
   })
   function handleSelectChange(value) {
     setType(value)
@@ -38,17 +35,7 @@ const SignUpForm = (props) => {
   }
   function handleClick(e) {
     e.preventDefault()
-    const formData = {
-      ...form,
-      type
-    }
-    if (type === 'teacher') {
-      delete form.school
-    } else if (type === 'company') {
-      delete form.address
-      delete form.school
-    }
-    handleSubmit(formData)
+    handleLogin({...form, role: type})
   }
   return (
     <form className={classes.root}>
@@ -58,7 +45,7 @@ const SignUpForm = (props) => {
         justify="center"
         alignItems="center"
       >
-        <Typography align="center" color="textPrimary" variant="h5">Sign Up</Typography>
+        <Typography align="center" color="textPrimary" variant="h5">Login In</Typography>
         <FormControl>
           <InputLabel html-for="type">Type</InputLabel>
           <Select
@@ -83,34 +70,14 @@ const SignUpForm = (props) => {
           <Input id="account" className={classes.textField} value={form.account} onChange={e => handleInputChange(e.target.id, e.target.value)} />
         </FormControl>
         <FormControl>
-          <InputLabel html-for="name">Name</InputLabel>
-          <Input id="name" className={classes.textField} value={form.name} onChange={e => handleInputChange(e.target.id, e.target.value)} />
-        </FormControl>
-        <FormControl>
           <InputLabel html-for="password">Password</InputLabel>
           <Input id="password" className={classes.textField} type="password" value={form.password} onChange={e => handleInputChange(e.target.id, e.target.value)} />
         </FormControl>
-        <FormControl>
-          <InputLabel html-for="email">Email</InputLabel>
-          <Input id="email" className={classes.textField} value={form.email} onChange={e => handleInputChange(e.target.id, e.target.value)} />
-        </FormControl>
-        {
-          (type === 'student' || type === 'teacher') && (<FormControl>
-            <InputLabel html-for="address">Address</InputLabel>
-            <Input id="address" className={classes.textField} value={form.address} onChange={e => handleInputChange(e.target.id, e.target.value)} />
-          </FormControl>)
-        }
-        {
-          type === 'student' && (<FormControl>
-            <InputLabel html-for="school">School</InputLabel>
-            <Input id="school" className={classes.textField} value={form.school} onChange={e => handleInputChange(e.target.id, e.target.value)} />
-          </FormControl>)
-        }
-        <br />
-        <Button type="submit" color="primary" onClick={throttle(handleClick)}>Sign Up</Button>
+        <br/>
+        <Button type="submit" color="primary" onClick={throttle(handleClick)}>Login</Button>
       </Grid>
     </form>
   )
 }
 
-export default withRouter(withStyles(styles)(SignUpForm))
+export default withRouter(withStyles(styles)(loginForm))

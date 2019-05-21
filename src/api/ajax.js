@@ -10,12 +10,13 @@ function request({
         } else {
           reject(xhr.status)
         }
-      } 
+      }
     }
     setOptions.call(xhr, options)
     xhr.open(method, url)
+    xhr.setRequestHeader('Content-Type', 'application/json')
     if (method === 'PUT' || method === 'POST') {
-      xhr.send(data)
+      xhr.send(JSON.stringify(data))
     } else {
       xhr.send()
     }
@@ -23,33 +24,36 @@ function request({
 }
 
 function setOptions(headers) {
-  if (typeof headers === 'obejct') {
+  if (typeof headers === 'object') {
     Object.keys(headers).forEach(header => this.setRequestHeader(header, headers[header]))
   }
 }
 function querystring(obj = {}) {
-  return typeof obj === 'object' ? Object.keys(obj).reduce((acc, cur) => acc += `${cur}=${obj[cur]}&`, '').slice(0, -1) : ''
+  if (typeof obj === 'object' && Object.keys(obj).length) {
+    return '?' + Object.keys(obj).reduce((acc, cur) => acc += `${cur}=${obj[cur]}&`, '').slice(0, -1)
+  }
+  return ''
 }
 
 const ajax = {
   get(url, data = {}, options = {}) {
     return request({
-      method: 'GET', data, url: `${url}?${querystring(data)}`, options
+      method: 'GET', data, url: `${url}${querystring(data)}`, options
     })
   },
   post(url, data = {}, options = {}, queryObject = {}) {
     return request({
-      method: 'POST', data, url: `${url}?${querystring(queryObject)}`, options
+      method: 'POST', data, url: `${url}${querystring(queryObject)}`, options
     })
   },
   delete(url, data = {}, options = {}, queryObject = {}) {
     return request({
-      method: 'DELETE', data, url: `${url}?${querystring(queryObject)}`, options
+      method: 'DELETE', data, url: `${url}${querystring(queryObject)}`, options
     })
   },
   put(url, data = {}, options = {}, queryObject = {}) {
     return request({
-      method: 'PUT', data, url: `${url}?${querystring(queryObject)}`, options
+      method: 'PUT', data, url: `${url}${querystring(queryObject)}`, options
     })
   },
 }

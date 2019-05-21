@@ -1,5 +1,10 @@
 import React from 'react'
 import Routes from './routes'
+import { createStore, applyMiddleware } from 'redux'
+import thunkMiddleware from 'redux-thunk'
+import { createLogger } from 'redux-logger'
+import reducers from './reducers'
+import { Provider } from 'react-redux'
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core'
 import { blue, indigo } from '@material-ui/core/colors'
 
@@ -20,13 +25,14 @@ const theme = createMuiTheme({
     ].join(',')
   }
 })
-
+const loggerMiddleware = createLogger()
+const store = createStore(reducers, applyMiddleware(thunkMiddleware, loggerMiddleware))
 const App = () => (
-  <div>
+  <Provider store={store}>
     <MuiThemeProvider theme={theme}>
       <Routes/>
     </MuiThemeProvider>
-  </div>
+  </Provider>
 )
 
 export default App
